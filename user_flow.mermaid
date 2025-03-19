@@ -1,0 +1,16 @@
+flowchart TD
+    A[User] -->|Visit /| B[View All Tickets]
+    A -->|Click 'Create New Ticket'| C[Create Ticket Form]
+    C -->|Submit Form| D[Store Ticket in Database]
+    D -->|Success| B
+    
+    A -->|Click 'Edit'| E[Edit Ticket Form]
+    E -->|Submit Changes| F[Update Ticket in Database]
+    F -->|Success| B
+    
+    A -->|Click 'Delete'| G[Delete Confirmation]
+    G -->|Confirm| H[Remove Ticket from Database]
+    H -->|Success| B
+    
+    B -->|View Ticket Details| I[Ticket Detail View]
+    I -->|Back| B

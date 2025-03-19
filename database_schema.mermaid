@@ -1,0 +1,19 @@
+erDiagram
+    TICKETS {
+        bigint id PK 
+        varchar title
+        text description
+        enum priority
+        enum status
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    SESSIONS {
+        varchar id PK
+        bigint user_id FK
+        varchar ip_address
+        text user_agent
+        text payload
+        int last_activity
+    }

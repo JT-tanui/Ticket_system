@@ -1,0 +1,45 @@
+```mermaid
+classDiagram
+    class Ticket {
+        +id: bigint
+        +title: string
+        +description: text
+        +priority: enum
+        +status: enum
+        +created_at: timestamp
+        +updated_at: timestamp
+        +all()
+        +find()
+        +create()
+        +update()
+        +delete()
+    }
+    
+    class TicketController {
+        +index()
+        +create()
+        +store(Request)
+        +edit(id)
+        +update(Request, id)
+        +destroy(id)
+    }
+    
+    class WebRoutes {
+        +GET /
+        +GET /ticket/create
+        +POST /ticket/store
+        +GET /ticket/{id}/edit
+        +POST /ticket/{id}/update
+        +POST /ticket/{id}/delete
+    }
+    
+    class Views {
+        +index.blade.php
+        +create.blade.php
+        +edit.blade.php
+    }
+     
+    WebRoutes --> TicketController : routes to
+    TicketController --> Ticket : uses
+    TicketController --> Views : returns
+```

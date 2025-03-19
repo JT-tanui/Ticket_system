@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant User
+    participant Routes
+    participant TicketController
+    participant TicketModel
+    participant Database
+    participant Views
+    
+    User->>Routes: HTTP Request
+    Routes->>TicketController: Route to Controller Method
+    TicketController->>TicketModel: Request Data
+    TicketModel->>Database: Query Database
+    Database-->>TicketModel: Return Data
+    TicketModel-->>TicketController: Return Model/Collection
+    TicketController->>Views: Parse Data to View
+    Views-->>User: Return HTML Response
