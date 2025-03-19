@@ -23,10 +23,10 @@ This application allows users to create, view, update, and delete support ticket
   <img src="Image/image0.png" alt="Homepage" width="600">
   <p><em>Homepage with ticket listing, search and filters</em></p>
   
-  <img src="image/image1.png" alt="Create Ticket" width="600">
+  <img src="Image/image1.png" alt="Create Ticket" width="600">
   <p><em>Create new ticket form</em></p>
   
-  <img src="image/image.png" alt="Edit Ticket" width="600">
+  <img src="Image/image.png" alt="Edit Ticket" width="600">
   <p><em>Edit existing ticket with status options</em></p>
 </div>
 
