@@ -2,63 +2,58 @@
 <html>
 <head>
     <title>Edit Ticket</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input, textarea, select { width: 100%; padding: 8px; box-sizing: border-box; }
-        button { padding: 10px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
-        .errors { color: red; margin-bottom: 20px; }
-    </style>
+    <link rel="stylesheet" href="/css/custom.css">
 </head>
 <body>
-    <h1>Edit Ticket</h1>
-    
-    @if ($errors->any())
-        <div class="errors">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    
-    <form action="/ticket/{{ $ticket->id }}/update" method="POST">
-        @csrf
+    <div class="container">
+        <h1>Edit Ticket</h1>
         
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" id="title" name="title" value="{{ old('title', $ticket->title) }}" required>
-        </div>
+        @if ($errors->any())
+            <div class="error-message">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" name="description" rows="5" required>{{ old('description', $ticket->description) }}</textarea>
-        </div>
-        
-        <div class="form-group">
-            <label for="priority">Priority</label>
-            <select id="priority" name="priority">
-                <option value="Low" {{ old('priority', $ticket->priority) == 'Low' ? 'selected' : '' }}>Low</option>
-                <option value="Medium" {{ old('priority', $ticket->priority) == 'Medium' ? 'selected' : '' }}>Medium</option>
-                <option value="High" {{ old('priority', $ticket->priority) == 'High' ? 'selected' : '' }}>High</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="status">Status</label>
-            <select id="status" name="status">
-                <option value="Open" {{ old('status', $ticket->status) == 'Open' ? 'selected' : '' }}>Open</option>
-                <option value="In Progress" {{ old('status', $ticket->status) == 'In Progress' ? 'selected' : '' }}>In Progress</option>
-                <option value="Closed" {{ old('status', $ticket->status) == 'Closed' ? 'selected' : '' }}>Closed</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <button type="submit">Update Ticket</button>
-            <a href="/" style="margin-left: 10px; text-decoration: none;">Cancel</a>
-        </div>
-    </form>
+        <form action="/ticket/{{ $ticket->id }}/update" method="POST">
+            @csrf
+            
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" value="{{ old('title', $ticket->title) }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="5" required>{{ old('description', $ticket->description) }}</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="priority">Priority</label>
+                <select id="priority" name="priority">
+                    <option value="Low" {{ old('priority', $ticket->priority) == 'Low' ? 'selected' : '' }}>Low</option>
+                    <option value="Medium" {{ old('priority', $ticket->priority) == 'Medium' ? 'selected' : '' }}>Medium</option>
+                    <option value="High" {{ old('priority', $ticket->priority) == 'High' ? 'selected' : '' }}>High</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    <option value="Open" {{ old('status', $ticket->status) == 'Open' ? 'selected' : '' }}>Open</option>
+                    <option value="In Progress" {{ old('status', $ticket->status) == 'In Progress' ? 'selected' : '' }}>In Progress</option>
+                    <option value="Closed" {{ old('status', $ticket->status) == 'Closed' ? 'selected' : '' }}>Closed</option>
+                </select>
+            </div>
+            
+            <div class="form-buttons">
+                <a href="/" class="btn btn-cancel">Cancel</a>
+                <button type="submit" class="btn btn-primary">Update Ticket</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

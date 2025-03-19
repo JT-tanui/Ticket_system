@@ -1,0 +1,10 @@
+-- Insert sample ticket data
+INSERT INTO tickets (title, description, priority, status, created_at, updated_at) VALUES 
+('Login Page Error', 'Users are unable to login after the recent update. The system shows "Invalid credentials" even with correct username/password.', 'High', 'Open', NOW(), NOW()),
+('Dashboard Loading Slowly', 'The main dashboard takes more than 10 seconds to load data, especially the sales charts.', 'Medium', 'In Progress', NOW(), NOW()),
+('Broken Image Links', 'Product images on the catalog page are not displaying correctly. Shows broken image icons instead.', 'Medium', 'Open', NOW(), NOW()),
+('Payment Gateway Integration', 'Need to integrate PayPal as an additional payment option for customers at checkout.', 'High', 'In Progress', NOW(), NOW()),
+('Typo on About Us Page', 'There is a spelling mistake in the company description on the About Us page.', 'Low', 'Closed', NOW(), NOW()),
+('Mobile Responsive Issues', 'The website is not displaying correctly on mobile devices, specifically on iPhone 12 and newer models.', 'Medium', 'Open', NOW(), NOW()),
+('Database Backup Failure', 'The automated database backup failed last night. Need to investigate the cause and fix it.', 'High', 'In Progress', NOW(), NOW()),
+('Feature Request: Dark Mode', 'Multiple users have requested adding a dark mode option to reduce eye strain.', 'Low', 'Open', NOW(), NOW());

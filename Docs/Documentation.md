@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-The Laravel Ticket System is a basic web application that provides CRUD (Create, Read, Update, Delete) functionality for support tickets. Each ticket contains a title, description, priority level, and status.
+The Laravel Ticket System is a web application that provides CRUD (Create, Read, Update, Delete) functionality for support tickets. Each ticket contains a title, description, priority level, and status. The system includes search and filtering capabilities to help users quickly find relevant tickets.
 
 ## System Requirements
 
@@ -53,6 +53,9 @@ TicketSystem/
 │   ├── migrations/
 │   │   ├── YYYY_MM_DD_create_tickets_table.php
 │   │   └── YYYY_MM_DD_create_sessions_table.php
+├── public/
+│   ├── css/
+│   │   └── custom.css
 ├── resources/
 │   ├── views/
 │   │   ├── tickets/
@@ -88,7 +91,7 @@ class Ticket extends Model
 
 | Method    | Purpose                                      | Parameters                    | Returns                           |
 |-----------|----------------------------------------------|-------------------------------|-----------------------------------|
-| index()   | Display all tickets                          | None                          | index view with tickets collection |
+| index()   | Display all tickets with search and filtering | Request $request             | index view with filtered tickets  |
 | create()  | Show form to create a new ticket             | None                          | create view                       |
 | store()   | Save new ticket to database                  | Request $request              | Redirect to index with success message |
 | edit()    | Show form to edit existing ticket            | $id (ticket ID)               | edit view with ticket data        |
@@ -111,7 +114,9 @@ class Ticket extends Model
 ### Index View (index.blade.php)
 
 - Lists all tickets in the system
-- Shows ticket title, priority, and status
+- Provides search functionality for finding tickets by title or description
+- Includes filters for status (Open, In Progress, Closed) and priority (Low, Medium, High)
+- Shows ticket title, priority, and status with color-coded badges
 - Provides links to edit and delete each ticket
 - Shows success messages after operations
 
@@ -133,6 +138,58 @@ class Ticket extends Model
   - Status (dropdown: Open, In Progress, Closed)
 - Submit button to update the ticket
 - Cancel link to return to index
+
+## New Feature: Search and Filtering
+
+### Search Functionality
+
+- Users can search for tickets by entering keywords that match ticket titles or descriptions
+- Search is case-insensitive and matches partial text
+- The search form is located at the top of the index page
+
+### Filtering Options
+
+- **Status Filter**: Filter tickets by their current status (Open, In Progress, Closed)
+- **Priority Filter**: Filter tickets by their priority level (Low, Medium, High)
+- **Default Sorting**: Tickets are sorted by creation date (newest first)
+
+### Implementation Details
+
+The search and filtering functionality is implemented in the `index()` method of the `TicketController`:
+
+```php
+public function index(Request $request)
+{
+    $query = Ticket::query();
+
+    // Search by keyword (title or description)
+    if ($request->has('search')) {
+        $searchTerm = $request->input('search');
+        $query->where(function ($q) use ($searchTerm) {
+            $q->where('title', 'LIKE', "%$searchTerm%")
+              ->orWhere('description', 'LIKE', "%$searchTerm%");
+        });
+    }
+
+    // Filter by status (Open, In Progress, Closed)
+    if ($request->has('status') && $request->status != 'all') {
+        $query->where('status', $request->status);
+    }
+
+    // Filter by priority (Low, Medium, High)
+    if ($request->has('priority') && $request->priority != 'all') {
+        $query->where('priority', $request->priority);
+    }
+
+    // Sort by date (Newest First)
+    $query->orderBy('created_at', 'desc');
+
+    // Get the filtered tickets
+    $tickets = $query->get();
+
+    return view('tickets.index', compact('tickets'));
+}
+```
 
 ## Installation Guide
 
@@ -177,6 +234,16 @@ class Ticket extends Model
 3. Click the "Create Ticket" button
 4. System will display the new ticket in the list with a success message
 
+### Searching for Tickets
+1. Enter keywords in the search box at the top of the page
+2. The system will find tickets with titles or descriptions containing your search terms
+3. Results update automatically when you click the Search button
+
+### Filtering Tickets
+1. Use the Status dropdown to filter by Open, In Progress, or Closed tickets
+2. Use the Priority dropdown to filter by Low, Medium, or High priority
+3. Combine search and filters to narrow down results further
+
 ### Editing a Ticket
 1. Click "Edit" next to the ticket you want to modify
 2. Update any of the fields (title, description, priority, status)
@@ -185,7 +252,8 @@ class Ticket extends Model
 
 ### Deleting a Ticket
 1. Click "Delete" next to the ticket you want to remove
-2. System will remove the ticket and display a success message
+2. Confirm the deletion when prompted
+3. System will remove the ticket and display a success message
 
 ## Troubleshooting
 
@@ -216,6 +284,7 @@ If you receive errors about missing PHP extensions:
 - CSRF protection is enabled for all forms using the `@csrf` directive
 - Input validation is implemented for all form submissions
 - Error messages are properly handled and displayed
+- Search input is sanitized to prevent SQL injection
 
 ## Future Enhancements
 
@@ -225,3 +294,7 @@ If you receive errors about missing PHP extensions:
 - Comment system for ticket discussions
 - Dashboard with ticket statistics
 - Ticket assignment to specific users
+- Advanced search options (date ranges, multiple statuses)
+- Export functionality (CSV, PDF)
+
+Similar code found with 1 license type

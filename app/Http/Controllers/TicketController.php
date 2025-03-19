@@ -8,9 +8,35 @@ use App\Models\Ticket;
 class TicketController extends Controller
 {
     // Show all tickets
-    public function index()
+    public function index(Request $request)
     {
-        $tickets = Ticket::all();
+        $query = Ticket::query();
+
+        // Search by keyword (title or description)
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'LIKE', "%$searchTerm%")
+                  ->orWhere('description', 'LIKE', "%$searchTerm%");
+            });
+        }
+
+        // Filter by status (Open, In Progress, Closed)
+        if ($request->has('status') && $request->status != 'all') {
+            $query->where('status', $request->status);
+        }
+
+        // Filter by priority (Low, Medium, High)
+        if ($request->has('priority') && $request->priority != 'all') {
+            $query->where('priority', $request->priority);
+        }
+
+        // Sort by date (Newest First)
+        $query->orderBy('created_at', 'desc');
+
+        // Get the filtered tickets
+        $tickets = $query->get();
+
         return view('tickets.index', compact('tickets'));
     }
 

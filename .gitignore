@@ -21,3 +21,5 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/Dummy_details/Advanced_crud.db
+/Dummy_details/Crud.db
